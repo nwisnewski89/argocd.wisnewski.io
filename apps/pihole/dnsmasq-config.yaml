@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pihole-custom-dnsmasq
+  namespace: pihole
+data:
+  02-custom.conf: |
+    address=/pihole.wisnewski.io/192.168.4.241
