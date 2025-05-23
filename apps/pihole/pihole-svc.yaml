@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app: pihole
-  name: pihole-dns
+  name: pihole-svc
   namespace: pihole
 spec:
   type: LoadBalancer
@@ -17,7 +17,7 @@ spec:
     targetPort: dns-udp
     protocol: UDP
   - name: http
-    port: 8080
+    port: 8081
     protocol: TCP
     targetPort: pihole-http
   - name: https
