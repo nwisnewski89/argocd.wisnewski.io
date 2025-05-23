@@ -5,4 +5,4 @@ metadata:
   namespace: pihole
 data:
   02-custom.conf: |
-    address=/pihole.wisnewski.io/192.168.4.241
+    address=/pihole.wisnewski.io/192.168.4.34

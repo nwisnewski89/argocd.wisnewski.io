@@ -28,7 +28,9 @@ spec:
       containers:
       - env:
         - name: ServerIP
-          value: 192.168.4.241
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
         - name: TZ
           value: America/New_York
         - name: FTLCONF_dns_upstreams
