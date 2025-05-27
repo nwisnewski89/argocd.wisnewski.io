@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: pihole
+  name: pihole-svc
+  namespace: pihole
+spec:
+  type: LoadBalancer
+  ports:
+  - name: dns-tcp
+    port: 5353
+    targetPort: dns
+    protocol: TCP
+  - name: dns-udp
+    port: 5353
+    targetPort: dns-udp
+    protocol: UDP
+  - name: http
+    port: 8081
+    protocol: TCP
+    targetPort: pihole-http
+  - name: https
+    port: 8443
+    protocol: TCP
+    targetPort: pihole-ssl
+  selector:
+    app: pihole 
