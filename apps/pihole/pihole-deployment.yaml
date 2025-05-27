@@ -66,9 +66,9 @@ spec:
         terminationMessagePolicy: File
         volumeMounts:
         - mountPath: /etc/pihole
-          name: config
+          name: pihole-volume
         - mountPath: /etc/dnsmasq.d/02-custom.conf
-          name: custom-dnsmasq
+          name: pihole-dnsmasq
           subPath: 02-custom.conf
       dnsPolicy: ClusterFirst
       restartPolicy: Always
