@@ -77,7 +77,6 @@ spec:
             - SYS_NICE
           privileged: true
           allowPrivilegeEscalation: true
-      dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
