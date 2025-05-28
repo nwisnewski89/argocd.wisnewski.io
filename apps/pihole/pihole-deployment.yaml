@@ -24,6 +24,8 @@ spec:
         app: pihole
     spec:
       dnsPolicy: ClusterFirst
+      nodeSelector:
+        pihole: "yes"
       containers:
       - env:
         - name: ServerIP
