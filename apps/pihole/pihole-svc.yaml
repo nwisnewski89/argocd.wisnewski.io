@@ -9,6 +9,7 @@ metadata:
     lb.k3s.io/port-handling: "all"
 spec:
   type: LoadBalancer
+  externalTrafficPolicy: Local
   ports:
   - name: dns-tcp
     port: 53
