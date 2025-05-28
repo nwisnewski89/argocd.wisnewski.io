@@ -5,9 +5,11 @@ metadata:
   namespace: pihole
 data:
   01-pihole.conf: |
-    interface=eth0
     bind-interfaces
     except-interface=nonexist
     local-service=no
-    interface=all
-    local-network=192.168.4.0/24 
+    interface=* 
+    local-network=192.168.4.0/24
+    local-network=10.0.0.0/8
+    local-network=2600:4040:7a0c:a000::/64
+    local-network=fd28:e502:9a24:1::/64
