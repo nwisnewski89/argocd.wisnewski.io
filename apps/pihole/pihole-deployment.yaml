@@ -42,16 +42,16 @@ spec:
             secretKeyRef:
               key: PASSWORD 
               name: pihole-password
-        #- name: FTLCONF_webserver_port
-        #  value: "8081,8443s"
+        - name: FTLCONF_webserver_port
+          value: "8081,8443s"
         image: pihole/pihole:2025.04.0
         imagePullPolicy: IfNotPresent
         name: pihole
         ports:
-        - containerPort: 80
+        - containerPort: 8081
           name: pihole-http
           protocol: TCP
-        - containerPort: 443
+        - containerPort: 8443
           name: pihole-ssl
           protocol: TCP
         - containerPort: 53
