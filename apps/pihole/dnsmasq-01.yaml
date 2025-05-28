@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pihole-dnsmasq-config
+  namespace: pihole
+data:
+  01-pihole.conf: |
+    interface=eth0
+    bind-interfaces
+    except-interface=nonexist
+    local-service=no
+    interface=all
+    local-network=192.168.4.0/24 
