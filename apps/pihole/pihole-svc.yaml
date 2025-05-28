@@ -5,6 +5,8 @@ metadata:
     app: pihole
   name: pihole-svc
   namespace: pihole
+  annotations:
+    lb.k3s.io/port-handling: "all"
 spec:
   type: LoadBalancer
   ports:
