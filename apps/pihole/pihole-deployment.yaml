@@ -24,7 +24,7 @@ spec:
         app: pihole
     spec:
       hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
+      dnsPolicy: Default
       nodeSelector:
         pihole: "yes"
       tolerations:
