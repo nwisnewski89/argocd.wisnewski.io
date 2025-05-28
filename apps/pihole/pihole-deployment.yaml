@@ -23,6 +23,8 @@ spec:
       labels:
         app: pihole
     spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       nodeSelector:
         pihole: "yes"
       containers:
