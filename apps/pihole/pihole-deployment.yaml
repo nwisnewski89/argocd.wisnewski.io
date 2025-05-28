@@ -27,6 +27,11 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       nodeSelector:
         pihole: "yes"
+      tolerations:
+      - key: "dns"
+        operator: "Equal"
+        value: "pihole"
+        effect: "NoSchedule"
       containers:
       - env:
         - name: ServerIP
