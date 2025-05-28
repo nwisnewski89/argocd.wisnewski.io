@@ -23,15 +23,7 @@ spec:
       labels:
         app: pihole
     spec:
-      hostNetwork: true
-      dnsPolicy: Default
-      nodeSelector:
-        pihole: "yes"
-      tolerations:
-      - key: "dns"
-        operator: "Equal"
-        value: "pihole"
-        effect: "NoSchedule"
+      dnsPolicy: ClusterFirst
       containers:
       - env:
         - name: ServerIP
