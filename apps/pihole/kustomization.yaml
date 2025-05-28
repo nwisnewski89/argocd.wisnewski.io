@@ -8,7 +8,7 @@ resources:
 - pihole-svc.yaml
 - pihole-cert.yaml
 - pihole-ingress.yaml
-- dnsmasq-01-pihole.yaml
+- dnsmasq-01.yaml
 
 images:
 - name: pihole/pihole
