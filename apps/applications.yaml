@@ -10,6 +10,8 @@ spec:
     repoURL: https://github.com/nwisnewski89/argocd.wisnewski.io.git
     targetRevision: main
     path: apps/pihole
+    plugin:
+      name: argocd-vault-plugin
   destination:
     server: https://kubernetes.default.svc
     namespace: pihole
@@ -31,6 +33,8 @@ spec:
     repoURL: https://github.com/nwisnewski89/argocd.wisnewski.io.git
     targetRevision: main
     path: apps/monitoring
+    plugin:
+      name: argocd-vault-plugin
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
