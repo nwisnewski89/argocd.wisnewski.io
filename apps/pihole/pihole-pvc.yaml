@@ -14,3 +14,20 @@ spec:
     requests:
       storage: 1Gi
 status: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: pihole
+  name: pihole-logs-volume
+  namespace: pihole
+spec:
+  storageClassName: ""
+  volumeName: pihole-logs-pv
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+status: {}

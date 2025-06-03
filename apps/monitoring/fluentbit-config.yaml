@@ -1,0 +1,121 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-config
+  namespace: monitoring
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+        Daemon Off
+        Flush 1
+        Log_Level info
+        Parsers_File parsers.conf
+
+    # Kubernetes Pod Logs
+    [INPUT]
+        Name tail
+        Tag kube.*
+        Path /var/log/containers/*.log
+        Parser docker
+        Refresh_Interval 5
+        Mem_Buf_Limit 5MB
+        Skip_Long_Lines On
+
+    # K3s Service Logs
+    [INPUT]
+        Name systemd
+        Tag k3s
+        Systemd_Filter _SYSTEMD_UNIT=k3s.service
+        DB /var/log/flb_k3s.db
+
+    [INPUT]
+        Name systemd
+        Tag k3s-agent
+        Systemd_Filter _SYSTEMD_UNIT=k3s-agent.service
+        DB /var/log/flb_k3s-agent.db
+
+    # Pi-hole Logs (conditional)
+    [INPUT]
+        Name tail
+        Tag pihole.query.*
+        Path /opt/k3s/data/pihole/logs/pihole.log
+        Parser pihole
+        Path_Key filename
+        Refresh_Interval 5
+        Mem_Buf_Limit 5MB
+        Skip_Long_Lines On
+
+    [INPUT]
+        Name tail
+        Tag pihole.ftl.*
+        Path /opt/k3s/data/pihole/logs/ftl.log
+        Parser ftl
+        Path_Key filename
+        Refresh_Interval 5
+        Mem_Buf_Limit 5MB
+        Skip_Long_Lines On
+
+    [INPUT]
+        Name tail
+        Tag pihole.webserver.*
+        Path /opt/k3s/data/pihole/logs/webserver.log
+        Parser webserver
+        Path_Key filename
+        Refresh_Interval 5
+        Mem_Buf_Limit 5MB
+        Skip_Long_Lines On
+
+    # Kubernetes Filter
+    [FILTER]
+        Name kubernetes
+        Match kube.*
+        Merge_Log On
+        Keep_Log Off
+        K8S-Logging.Parser On
+        K8S-Logging.Exclude On
+
+    # Output to Loki
+    [OUTPUT]
+        Name loki
+        Match *
+        Host ${LOKI_HOST}
+        Port ${LOKI_PORT}
+        Tenant_ID ${LOKI_TENANT_ID}
+        Labels job=fluentbit
+        Label_Keys $kubernetes['namespace_name'],$kubernetes['pod_name'],$kubernetes['container_name']
+        Basic_Auth On
+        HTTP_User ${LOKI_USERNAME}
+        HTTP_Passwd ${LOKI_PASSWORD}
+
+  parsers.conf: |
+    [PARSER]
+        Name docker
+        Format json
+        Time_Key time
+        Time_Format %Y-%m-%dT%H:%M:%S.%L
+        Time_Keep On
+
+    [PARSER]
+        Name pihole
+        Format regex
+        Regex ^(?<time>[^ ]+)\s+(?<stream>stdout|stderr)\s+(?<log>.*)$
+        Time_Key time
+        Time_Format %Y-%m-%dT%H:%M:%S.%L
+        Time_Keep On
+
+    [PARSER]
+        Name ftl
+        Format regex
+        Regex ^(?<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}) (?<level>[A-Z]+) (?<message>.+)$
+        Time_Key timestamp
+        Time_Format %Y-%m-%d %H:%M:%S.%L
+        Time_Keep On
+
+    [PARSER]
+        Name webserver
+        Format regex
+        Regex ^(?<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}) (?<message>.+)$
+        Time_Key timestamp
+        Time_Format %Y-%m-%d %H:%M:%S.%L
+        Time_Keep On
+        

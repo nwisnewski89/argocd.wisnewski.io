@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pihole-dnsmasq-config
+  namespace: pihole
+  annotations:
+    avp.kubernetes.io/path: secrets/pihole/dnsmasq
+type: Opaque
+data:
+  01-pihole.conf: <01-pihole.conf>

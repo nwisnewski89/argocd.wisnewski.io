@@ -39,7 +39,7 @@ spec:
         - name: FTLCONF_webserver_api_password
           valueFrom:
             secretKeyRef:
-              key: PASSWORD 
+              key: password
               name: pihole-password
         - name: FTLCONF_webserver_port
           value: "8081,8443s"
@@ -63,6 +63,8 @@ spec:
           name: client-udp
           protocol: UDP
         volumeMounts:
+        - mountPath: /var/log/pihole
+          name: pihole-logs
         - mountPath: /etc/pihole
           name: pihole-volume
         - mountPath: /etc/dnsmasq.d/02-custom.conf
@@ -88,11 +90,15 @@ spec:
         persistentVolumeClaim:
           claimName: pihole-volume
       - name: pihole-dnsmasq
-        configMap:
+        secret:
           defaultMode: 420
           name: pihole-dnsmasq
       - name: pihole-dnsmasq-config
-        configMap:
+        secret:
           defaultMode: 420
           name: pihole-dnsmasq-config
+      - name: pihole-logs
+        secret:
+          defaultMode: 420
+          name: pihole-logs
 status: {}
