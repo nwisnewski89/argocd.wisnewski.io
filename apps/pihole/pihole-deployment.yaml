@@ -64,7 +64,7 @@ spec:
           protocol: UDP
         volumeMounts:
         - mountPath: /var/log/pihole
-          name: pihole-logs
+          name: pihole-logs-volume
         - mountPath: /etc/pihole
           name: pihole-volume
         - mountPath: /etc/dnsmasq.d/02-custom.conf
@@ -86,6 +86,9 @@ spec:
       securityContext: {}
       terminationGracePeriodSeconds: 30
       volumes:
+      - name: pihole-logs-volume
+        persistentVolumeClaim:
+          claimName: pihole-logs-volume
       - name: pihole-volume
         persistentVolumeClaim:
           claimName: pihole-volume
@@ -97,8 +100,4 @@ spec:
         secret:
           defaultMode: 420
           name: pihole-dnsmasq-config
-      - name: pihole-logs
-        secret:
-          defaultMode: 420
-          name: pihole-logs
 status: {}

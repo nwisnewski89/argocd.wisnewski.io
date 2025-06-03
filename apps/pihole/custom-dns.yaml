@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: pihole-dnsmasq-config
+  name: pihole-dnsmasq
   namespace: pihole
   annotations:
     avp.kubernetes.io/path: secrets/pihole/dnsmasq
