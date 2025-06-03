@@ -20,7 +20,7 @@ spec:
         effect: NoSchedule
       containers:
       - name: fluent-bit
-        image: fluent/fluent-bit:latest
+        image: fluent/fluent-bit:v4.0.3
         env:
         - name: LOKI_HOST
           valueFrom:
