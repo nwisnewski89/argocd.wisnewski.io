@@ -27,7 +27,8 @@ spec:
       nodeSelector:
         pihole: "yes"
       containers:
-      - env:
+      - name: pihole
+        env:
         - name: ServerIP
           valueFrom:
             fieldRef:
@@ -39,40 +40,39 @@ spec:
         - name: FTLCONF_webserver_api_password
           valueFrom:
             secretKeyRef:
-              key: password
               name: pihole-password
+              key: password
         - name: FTLCONF_webserver_port
           value: "8081,8443s"
         image: pihole/pihole:2025.04.0
         imagePullPolicy: IfNotPresent
-        name: pihole
         ports:
-        - containerPort: 8081
-          name: pihole-http
+        - name: pihole-http
+          containerPort: 8081
           protocol: TCP
-        - containerPort: 8443
-          name: pihole-ssl
+        - name: pihole-ssl
+          containerPort: 8443
           protocol: TCP
-        - containerPort: 53
-          name: dns
+        - name: dns
+          containerPort: 53
           protocol: TCP
-        - containerPort: 53
-          name: dns-udp
+        - name: dns-udp
+          containerPort: 53
           protocol: UDP
-        - containerPort: 67
-          name: client-udp
+        - name: client-udp
+          containerPort: 67
           protocol: UDP
         volumeMounts:
-        - mountPath: /var/log/pihole
-          name: pihole-logs-volume
-        - mountPath: /etc/pihole
-          name: pihole-volume
-        - mountPath: /etc/dnsmasq.d/02-custom.conf
-          name: pihole-dnsmasq
-          subPath: 02-custom.conf
-        - mountPath: /etc/dnsmasq.d/01-pihole.conf
-          name: pihole-dnsmasq-config
-          subPath: 01-pihole.conf
+        - name: pihole-logs-volume
+          mountPath: /var/log/pihole
+        - name: pihole-volume
+          mountPath: /etc/pihole
+        - name: pihole-dnsmasq
+          mountPath: /etc/dnsmasq.d/02-custom.conf
+          readOnly: true
+        - name: pihole-dnsmasq-config
+          mountPath: /etc/dnsmasq.d/01-pihole.conf
+          readOnly: true
         securityContext:
           capabilities:
             add:
@@ -94,10 +94,8 @@ spec:
           claimName: pihole-volume
       - name: pihole-dnsmasq
         secret:
-          defaultMode: 420
           name: pihole-dnsmasq
       - name: pihole-dnsmasq-config
         secret:
-          defaultMode: 420
           name: pihole-dnsmasq-config
 status: {}
