@@ -5,5 +5,6 @@ metadata:
   namespace: pihole
   annotations:
     avp.kubernetes.io/path: secrets/pihole/dnsmasq
-stringData:
-  01-pihole.conf: <01-pihole.conf | base64decode>
+type: Opaque
+data:
+  01-pihole.conf: PGhvc3Q+
